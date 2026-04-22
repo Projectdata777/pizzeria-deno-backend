@@ -1,0 +1,18 @@
+name: Keep-Alive Render Backend
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render backend
+        run: |
+          echo "Pinging backend at $(date)"
+          curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s" \
+            https://pizzeria-vocal-saas-backend.onrender.com/api/health || true
+          echo ""
+          echo "Backend pinged successfully"
